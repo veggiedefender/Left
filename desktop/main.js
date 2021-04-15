@@ -2,7 +2,7 @@
 
 /* global createWindow */
 
-const { app, BrowserWindow, Menu } = require('electron')
+const { app, BrowserWindow, Menu, screen } = require('electron')
 const path = require('path')
 
 let isShown = true
@@ -10,14 +10,16 @@ let isShown = true
 app.win = null
 
 app.on('ready', () => {
+  const size = screen.getPrimaryDisplay().workAreaSize;
+
   app.win = new BrowserWindow({
-    width: 780,
-    height: 462,
-    minWidth: 380,
-    minHeight: 360,
+    width: size.width,
+    height: size.height,
+    x: 0,
+    y: 0,
     backgroundColor: '#000',
     icon: path.join(__dirname, { darwin: 'icon.icns', linux: 'icon.png', win32: 'icon.ico' }[process.platform] || 'icon.ico'),
-    resizable: true,
+    resizable: false,
     frame: process.platform !== 'darwin',
     skipTaskbar: process.platform === 'darwin',
     autoHideMenuBar: process.platform === 'darwin',
