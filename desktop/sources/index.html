@@ -41,7 +41,7 @@
       left.controller.addRole('default', '*', 'forcereload')
       left.controller.addRole('default', '*', 'toggledevtools')
       left.controller.add('default', '*', 'Reset', () => { left.reset() }, 'CmdOrCtrl+Backspace')
-      left.controller.add('default', '*', 'Quit', () => { left.project.quit() }, 'CmdOrCtrl+Q')
+      left.controller.add('default', '*', 'Quit', () => { left.project.quit() })
 
       left.controller.add('default', 'File', 'New', () => { left.project.new() }, 'CmdOrCtrl+N')
       left.controller.add('default', 'File', 'Open', () => { left.project.open() }, 'CmdOrCtrl+O')
@@ -92,20 +92,20 @@
       left.controller.add('reader', '*', 'Fullscreen', () => { app.toggleFullscreen() }, 'CmdOrCtrl+Enter')
       left.controller.add('reader', '*', 'Hide', () => { app.toggleVisible() }, 'CmdOrCtrl+H')
       left.controller.add('reader', '*', 'Reset', () => { left.theme.reset() }, 'CmdOrCtrl+Backspace')
-      left.controller.add('reader', '*', 'Quit', () => { left.project.quit() }, 'CmdOrCtrl+Q')
+      left.controller.add('reader', '*', 'Quit', () => { left.project.quit() })
       left.controller.add('reader', 'Reader', 'Stop', () => { left.reader.stop() }, 'Esc')
 
       left.controller.add('operator', '*', 'About', () => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Left') }, 'CmdOrCtrl+,')
       left.controller.add('operator', '*', 'Fullscreen', () => { app.toggleFullscreen() }, 'CmdOrCtrl+Enter')
       left.controller.add('operator', '*', 'Hide', () => { app.toggleVisible() }, 'CmdOrCtrl+H')
       left.controller.add('operator', '*', 'Reset', () => { left.theme.reset() }, 'CmdOrCtrl+Backspace')
-      left.controller.add('operator', '*', 'Quit', () => { left.project.quit() }, 'CmdOrCtrl+Q')
+      left.controller.add('operator', '*', 'Quit', () => { left.project.quit() })
 
       left.controller.add('insert', '*', 'About', () => { require('electron').shell.openExternal('https://github.com/hundredrabbits/Left') }, 'CmdOrCtrl+,')
       left.controller.add('insert', '*', 'Fullscreen', () => { app.toggleFullscreen() }, 'CmdOrCtrl+Enter')
       left.controller.add('insert', '*', 'Hide', () => { app.toggleVisible() }, 'CmdOrCtrl+H')
       left.controller.add('insert', '*', 'Reset', () => { left.theme.reset() }, 'CmdOrCtrl+Backspace')
-      left.controller.add('insert', '*', 'Quit', () => { left.project.quit() }, 'CmdOrCtrl+Q')
+      left.controller.add('insert', '*', 'Quit', () => { left.project.quit() })
 
       left.controller.add('insert', 'Insert', 'Date', () => { left.insert.date() }, 'CmdOrCtrl+D')
       left.controller.add('insert', 'Insert', 'Time', () => { left.insert.time() }, 'CmdOrCtrl+T')

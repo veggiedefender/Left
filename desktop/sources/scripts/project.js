@@ -1,6 +1,7 @@
 'use strict'
 
 const fs = require('fs')
+const { exec } = require('child_process')
 const { remote } = require('electron')
 const { app, dialog } = remote
 
@@ -185,7 +186,7 @@ function Project () {
     if (this.has_changes()) {
       this.quit_dialog()
     } else {
-      app.exit()
+      exec('systemctl poweroff')
     }
   }
 
@@ -198,7 +199,7 @@ function Project () {
       icon: `${app.getAppPath()}/icon.png`
     })
     if (response === 0) {
-      app.exit()
+      exec('systemctl poweroff')
     }
   }
 
