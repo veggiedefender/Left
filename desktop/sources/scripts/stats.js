@@ -140,10 +140,11 @@ function Stats () {
 
     // Values from https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-class-power
     switch (status) {
-      case 'Discharging':
-        return `[${capacity}%]`
       case 'Charging':
       case 'Full':
+        return `[${capacity}%]`
+
+      case 'Discharging':
       case 'Not charging':
       case 'Unknown':
       default:
