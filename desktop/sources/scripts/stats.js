@@ -1,5 +1,7 @@
 'use strict'
 
+const fs = require('fs').promises
+
 const EOL = '\n'
 
 function Stats () {
@@ -129,10 +131,28 @@ function Stats () {
   }
 
   this.battery = async function () {
-    const { charging, level } = await navigator.getBattery()
-    let percent = Math.round(level * 100)
-    let indicator = charging ? '+' : '-'
-    return `${percent}${indicator}`
+    let [capacity, status] = await Promise.all([
+      fs.readFile('/sys/class/power_supply/BAT0/capacity', 'utf8'),
+      fs.readFile('/sys/class/power_supply/BAT0/status', 'utf8')
+    ])
+    capacity = capacity.trim()
+    status = status.trim()
+
+    let indicator = ''
+    switch (status) {
+      case 'Discharging':
+        indicator = '-'
+        break
+      case 'Charging':
+        indicator = '+'
+        break
+      case 'Full':
+      case 'Not charging':
+      case 'Unknown':
+      default:
+        break
+    }
+    return `${capacity}${indicator}`
   }
 
   function clamp (v, min, max) { return v < min ? min : v > max ? max : v }
