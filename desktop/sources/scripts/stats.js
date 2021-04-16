@@ -138,21 +138,17 @@ function Stats () {
     capacity = capacity.trim()
     status = status.trim()
 
-    let indicator = ''
+    // Values from https://www.kernel.org/doc/Documentation/ABI/testing/sysfs-class-power
     switch (status) {
       case 'Discharging':
-        indicator = '-'
-        break
+        return `[${capacity}%]`
       case 'Charging':
-        indicator = '+'
-        break
       case 'Full':
       case 'Not charging':
       case 'Unknown':
       default:
-        break
+        return `${capacity}%`
     }
-    return `${capacity}${indicator}`
   }
 
   function clamp (v, min, max) { return v < min ? min : v > max ? max : v }
