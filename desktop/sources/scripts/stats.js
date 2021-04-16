@@ -9,14 +9,14 @@ function Stats () {
     host.appendChild(this.el)
   }
 
-  this.update = function (special = '') {
+  this.update = async function (special = '') {
     if (left.insert.is_active) {
       this.el.innerHTML = left.insert.status()
       return
     }
 
     if (left.textarea_el.selectionStart !== left.textarea_el.selectionEnd) {
-      this.el.innerHTML = this._selection()
+      this.el.innerHTML = await this._selection()
     } else if (left.synonyms) {
       this.el.innerHTML = ''
       this.el.appendChild(this._synonyms())
@@ -25,14 +25,15 @@ function Stats () {
     } else if (left.selection.url) {
       this.el.innerHTML = this._url()
     } else {
-      this.el.innerHTML = this._default()
+      this.el.innerHTML = await this._default()
     }
   }
 
-  this._default = function () {
+  this._default = async function () {
     const stats = this.parse(left.selected())
     const date = new Date()
-    return `${stats.l}L ${stats.w}W ${stats.v}V ${stats.c}C ${stats.p}% <span ${stats.a}>AI</span> <span class='right'>${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}</span>`
+    const battery = await this.battery()
+    return `${stats.l}L ${stats.w}W ${stats.v}V ${stats.c}C ${stats.p}% <span ${stats.a}>AI</span> <span class='right'>${battery} ${date.getHours()}:${('0' + date.getMinutes()).slice(-2)}</span>`
   }
 
   this.incrementSynonym = function () {
@@ -90,8 +91,8 @@ function Stats () {
     return `<t>${left.selection.word}<b>${left.suggestion.substr(left.selection.word.length, left.suggestion.length)}</b></t>`
   }
 
-  this._selection = function () {
-    return `<b>[${left.textarea_el.selectionStart},${left.textarea_el.selectionEnd}]</b> ${this._default()}`
+  this._selection = async function () {
+    return `<b>[${left.textarea_el.selectionStart},${left.textarea_el.selectionEnd}]</b> ${await this._default()}`
   }
 
   this._url = function () {
@@ -125,6 +126,13 @@ function Stats () {
     stats.p = stats.c > 0 ? clamp((left.textarea_el.selectionEnd / stats.c) * 100, 0, 100).toFixed(2) : 0
     stats.a = left.autoindent ? 'class="fh"' : ''
     return stats
+  }
+
+  this.battery = async function () {
+    const { charging, level } = await navigator.getBattery()
+    let percent = Math.round(level * 100)
+    let indicator = charging ? '+' : '-'
+    return `${percent}${indicator}`
   }
 
   function clamp (v, min, max) { return v < min ? min : v > max ? max : v }
